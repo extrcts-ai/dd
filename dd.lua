@@ -21,12 +21,12 @@ local Camera = Workspace:FindFirstChildWhichIsA("Camera")
 local Viewport = Camera.ViewportSize
 --
 do -- Folders
-    if not isfolder("gamesense") then
-        makefolder("gamesense")
+    if not isfolder("gamesnooze") then
+        makefolder("gamesnooze")
     end
     --
-    if not isfolder("gamesense/Configs") then
-        makefolder("gamesense/Configs")
+    if not isfolder("gamesnooze/Configs") then
+        makefolder("gamesnooze/Configs")
     end
 end
 --
@@ -44,10 +44,10 @@ do -- Library
         UID = "1",
         UnsafeMode = false,
         InitTime = os.clock(),
-        Folder = "gamesense",
-        ConfigFolder = "gamesense/Configs",
+        Folder = "gamesnooze",
+        ConfigFolder = "gamesnooze/Configs",
         UI = {
-            Name = "gamesense",
+            Name = "gamesnooze",
             CloseBind = Enum.KeyCode.Insert,
             SectionResizeIncrements = 1,
             WatermarkRefreshRate = 1,
@@ -316,8 +316,8 @@ do -- Library
     end
     --
     function Library:UpdateConfigList(List, Type)
-        for _, File in listfiles("gamesense/Configs") do
-            local FileName = File:gsub("\\", "/"):gsub("gamesense/Configs/", ""):gsub(".cfg", "")
+        for _, File in listfiles("gamesnooze/Configs") do
+            local FileName = File:gsub("\\", "/"):gsub("gamesnooze/Configs/", ""):gsub(".cfg", "")
             --
             if Type == "Remove" then
                 List:RemoveValue(FileName)
@@ -440,63 +440,45 @@ do -- Library
         if IsMainUI then
             Library.UI.Faded = not State
         end
-        --  handle toggle transparency when fading out since im not using fade out for now as it causes fps issues
-        if not State and IsMainUI then
-            -- find all toggle elements and force them transparent immediately instead of waiting since some things may not leave instantly
-            for _, obj in pairs(MainUI:GetDescendants()) do
-                if obj.ClassName == "Frame" then
-                    if obj.Name == "ToggleMain" then
-                        obj.BackgroundTransparency = 1
-                    end
-                end
-            end
-        end
         --
         for _, Object in Table do
             if not Object[3] then
                 if Object[1].ClassName == "Frame" and (Object[2]["BackgroundTransparency"] or 0) ~= 1 then
-                    -- Library:TweenObject(Object[1], TweenInfo.new(Speed, Enum.EasingStyle.Linear, State and Enum.EasingDirection["Out"] or Enum.EasingDirection["In"]), {BackgroundTransparency = State and (Object[2]["BackgroundTransparency"] or 0) or 1})
-                    Object[1].BackgroundTransparency = State and (Object[2]["BackgroundTransparency"] or 0) or 1
+                    Library:TweenObject(Object[1], TweenInfo.new(Speed, Enum.EasingStyle.Linear, State and Enum.EasingDirection["Out"] or Enum.EasingDirection["In"]), {BackgroundTransparency = State and (Object[2]["BackgroundTransparency"] or 0) or 1})
                 elseif Object[1].ClassName == "ImageLabel" or Object[1].ClassName == "ImageButton" then
                     if (Object[2]["BackgroundTransparency"] or 0) ~= 1 then
-                        -- Library:TweenObject(Object[1], TweenInfo.new(Speed, Enum.EasingStyle.Linear, State and Enum.EasingDirection["Out"] or Enum.EasingDirection["In"]), {BackgroundTransparency = State and (Object[2]["BackgroundTransparency"] or 0) or 1})
-                        Object[1].BackgroundTransparency = State and (Object[2]["BackgroundTransparency"] or 0) or 1
+                        Library:TweenObject(Object[1], TweenInfo.new(Speed, Enum.EasingStyle.Linear, State and Enum.EasingDirection["Out"] or Enum.EasingDirection["In"]), {BackgroundTransparency = State and (Object[2]["BackgroundTransparency"] or 0) or 1})
                     end
                     --
                     if (Object[2]["ImageTransparency"] or 0) ~= 1 then
-                        -- Library:TweenObject(Object[1], TweenInfo.new(Speed, Enum.EasingStyle.Linear, State and Enum.EasingDirection["Out"] or Enum.EasingDirection["In"]), {ImageTransparency = State and (Object[2]["ImageTransparency"] or 0) or 1})
-                        Object[1].ImageTransparency = State and (Object[2]["ImageTransparency"] or 0) or 1
+                        Library:TweenObject(Object[1], TweenInfo.new(Speed, Enum.EasingStyle.Linear, State and Enum.EasingDirection["Out"] or Enum.EasingDirection["In"]), {ImageTransparency = State and (Object[2]["ImageTransparency"] or 0) or 1})
                     end
-                elseif Object[1].ClassName == "TextLabel" or Object[1].ClassName == "TextButton" or Object[1].ClassName == "TextBox" then
+                elseif Object[1].ClassName == "TextLabel" or Object[1].ClassName == "TextBox" or Object[1].ClassName == "TextButton" then
                     if (Object[2]["BackgroundTransparency"] or 0) ~= 1 then
-                        -- Library:TweenObject(Object[1], TweenInfo.new(Speed, Enum.EasingStyle.Linear, State and Enum.EasingDirection["Out"] or Enum.EasingDirection["In"]), {BackgroundTransparency = State and (Object[2]["BackgroundTransparency"] or 0) or 1})
-                        Object[1].BackgroundTransparency = State and (Object[2]["BackgroundTransparency"] or 0) or 1
+                        Library:TweenObject(Object[1], TweenInfo.new(Speed, Enum.EasingStyle.Linear, State and Enum.EasingDirection["Out"] or Enum.EasingDirection["In"]), {BackgroundTransparency = State and (Object[2]["BackgroundTransparency"] or 0) or 1})
                     end
                     --
                     if (Object[2]["TextTransparency"] or 0) ~= 1 then
-                        -- Library:TweenObject(Object[1], TweenInfo.new(Speed, Enum.EasingStyle.Linear, State and Enum.EasingDirection["Out"] or Enum.EasingDirection["In"]), {TextTransparency = State and (Object[2]["TextTransparency"] or 0) or 1})
-                        Object[1].TextTransparency = State and (Object[2]["TextTransparency"] or 0) or 1
+                        Library:TweenObject(Object[1], TweenInfo.new(Speed, Enum.EasingStyle.Linear, State and Enum.EasingDirection["Out"] or Enum.EasingDirection["In"]), {TextTransparency = State and (Object[2]["TextTransparency"] or 0) or 1})
                     end
                 elseif Object[1].ClassName == "ScrollingFrame" then
                     if (Object[2]["BackgroundTransparency"] or 0) ~= 1 then
-                        -- Library:TweenObject(Object[1], TweenInfo.new(Speed, Enum.EasingStyle.Linear, State and Enum.EasingDirection["Out"] or Enum.EasingDirection["In"]), {BackgroundTransparency = State and (Object[2]["BackgroundTransparency"] or 0) or 1})
-                        Object[1].BackgroundTransparency = State and (Object[2]["BackgroundTransparency"] or 0) or 1
+                        Library:TweenObject(Object[1], TweenInfo.new(Speed, Enum.EasingStyle.Linear, State and Enum.EasingDirection["Out"] or Enum.EasingDirection["In"]), {BackgroundTransparency = State and (Object[2]["BackgroundTransparency"] or 0) or 1})
                     end
                     --
                     if (Object[2]["ScrollBarImageTransparency"] or 0) ~= 1 then
-                        -- Library:TweenObject(Object[1], TweenInfo.new(Speed, Enum.EasingStyle.Linear, State and Enum.EasingDirection["Out"] or Enum.EasingDirection["In"]), {ScrollBarImageTransparency = State and (Object[2]["ScrollBarImageTransparency"] or 0) or 1})
-                        Object[1].ScrollBarImageTransparency = State and (Object[2]["ScrollBarImageTransparency"] or 0) or 1
+                        Library:TweenObject(Object[1], TweenInfo.new(Speed, Enum.EasingStyle.Linear, State and Enum.EasingDirection["Out"] or Enum.EasingDirection["In"]), {ScrollBarImageTransparency = State and (Object[2]["ScrollBarImageTransparency"] or 0) or 1})
                     end
                 elseif Object[1].ClassName == "UIStroke" then
-                    -- Library:TweenObject(Object[1], TweenInfo.new(Speed, Enum.EasingStyle.Linear, State and Enum.EasingDirection["Out"] or Enum.EasingDirection["In"]), {Transparency = State and (Object[2]["Transparency"] or 0) or 1})
-                    Object[1].Transparency = State and (Object[2]["Transparency"] or 0) or 1
+                    Library:TweenObject(Object[1], TweenInfo.new(Speed, Enum.EasingStyle.Linear, State and Enum.EasingDirection["Out"] or Enum.EasingDirection["In"]), {Transparency = State and (Object[2]["Transparency"] or 0) or 1})
+                elseif Object[1].ClassName == "UIGradient" then
+                    Object[1].Transparency = State and (Object[2]["Transparency"] or NumberSequence.new{NumberSequenceKeypoint.new(0, 0), NumberSequenceKeypoint.new(1, 0)}) or NumberSequence.new{NumberSequenceKeypoint.new(0, 1), NumberSequenceKeypoint.new(1, 1)}
                 end
             end
         end
         --
         if not State then
             task.delay(Speed, function()
-                if not MainUI.Parent then return end
                 MainUI.Visible = false
             end)
         end
@@ -667,7 +649,7 @@ do -- Library
     function Library:ColorPicker(Options)
         Options = Library:Validate({
             Name = "Preview Color Picker",
-            Default = Library.Theme.Default.Accent,
+            Default = Color3.fromRGB(255, 0, 0),
             Alpha = 0,
             AlphaBar = true,
             Parent = nil,
@@ -740,22 +722,6 @@ do -- Library
             Parent = ColorPickerOutline_1
         })
         --
-        local ColorPickerTransparency = Library:CreateObject("ImageLabel", {
-            BorderColor3 = Color3.fromRGB(0, 0, 0),
-            Image = "rbxassetid://18249241978",
-            ImageColor3 = Color3.fromRGB(255, 255, 255),
-            BackgroundTransparency = 1,
-            Name = "Transparency",
-            Size = UDim2.new(1, -2, 1, -2),
-            Position = UDim2.new(0, 1, 0, 1),
-            BorderSizePixel = 0,
-            ZIndex = 3,
-            ScaleType = Enum.ScaleType.Tile,
-            TileSize = UDim2.new(0, 6, 0, 6),
-            BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-            Parent = ColorPickerOutline_1
-        })
-        --
         local ColorPickerInline_1 = Library:CreateObject("Frame", {
             Size = UDim2.new(1, -2, 1, -2),
             Name = "ColorPickerInline_1",
@@ -763,7 +729,6 @@ do -- Library
             BorderColor3 = Color3.fromRGB(0, 0, 0),
             ZIndex = 3,
             BorderSizePixel = 0,
-            BackgroundTransparency = 0,
             BackgroundColor3 = Color3.fromRGB(255, 255, 255),
             Parent = ColorPickerOutline_1
         })
@@ -1188,7 +1153,6 @@ do -- Library
                         DraggingMain.BackgroundColor3 = ColorPicker.Color
                         DraggingSatMain.BackgroundColor3 = ColorPicker.Color
                         DraggingHueMain.BackgroundColor3 = ColorPicker.Color
-                        ColorPickerInline_1.BackgroundTransparency = ColorPicker.Alpha
                         UIGradient_21.Transparency = NumberSequence.new{NumberSequenceKeypoint.new(0, 0.304 + (0.604 - 0.304) * ColorPicker.Alpha), NumberSequenceKeypoint.new(0.5, 0.7), NumberSequenceKeypoint.new(1, 1)}
                         --
                         Options.Callback(ColorPicker.Color, ColorPicker.Alpha)
@@ -1635,7 +1599,6 @@ do -- Library
             ToggleState = false,
             Flag = Library.NewFlag(),
             Count = 1,
-            ChangeToggle = false,
             Callback = function() end,
         }, Options or {})
         --
@@ -1778,28 +1741,25 @@ do -- Library
             function Keybind:Toggle(Bool)
                 if Keybind.Hiding then return end
                 --
-                if Bool == nil then
-                    Keybind.State = not Keybind.State
-                else
-                    Keybind.State = Bool
-                end
-                --
-                if not Options.HideFromList then
-                    if Keybind.State then
-                        --Library:AddKeybindFrame(Keybind.Mode, Options.Toggle:GetName(), Keybind.Keybind, Options.Toggle:GetSection())
+                if Options.Toggle.State then
+                    if Bool == nil then
+                        Keybind.State = not Keybind.State
                     else
-                        --Library:RemoveKeybindFrame(Options.Toggle:GetName(), Options.Toggle:GetSection())
+                        Keybind.State = Bool
                     end
-                end
-                --
-                if Options.Toggle.GetFlag then
-                    Library.Flags[Options.Toggle:GetFlag()] = Keybind
-                end
-                --
-                if Options.ChangeToggle then
-                    -- viuslaly toggle the UI element and update its state
-                    Options.Toggle:Set(Keybind.State)
-                else
+                    --
+                    if not Options.HideFromList then
+                        if Keybind.State then
+                            --Library:AddKeybindFrame(Keybind.Mode, Options.Toggle:GetName(), Keybind.Keybind, Options.Toggle:GetSection())
+                        else
+                            --Library:RemoveKeybindFrame(Options.Toggle:GetName(), Options.Toggle:GetSection())
+                        end
+                    end
+                    --
+                    if Options.Toggle.GetFlag then
+                        Library.Flags[Options.Toggle:GetFlag()] = Keybind
+                    end
+                    --
                     Options.Toggle:GetCallback(Keybind.State)
                 end
             end
@@ -2379,7 +2339,7 @@ do -- Library
                     else
                         MultiBox.Items[Index] = true
                     end
-                    --
+                    --        
                     Item:Toggle()
                 end
             end
@@ -2496,8 +2456,8 @@ do -- Library
                             MultiBox.CurrentItem = Item
                             MultiBox.Items[Value] = true
                             Library.Flags[Options.Flag] = MultiBox
-                            Item:SelectItem(Value)
                             Options.Callback(MultiBox.Value)
+                            Item:SelectItem(Value)
                             --
                             Inactive.Text = "<b>" .. Value .. "</b>"
                             Library:TweenObject(Inactive, TweenInfo.new(Library.UI.TweenSpeed, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {TextColor3 = Library.Theme.Default.Accent})
@@ -2514,8 +2474,8 @@ do -- Library
                             MultiBox.CurrentItem = nil
                             Library.Flags[Options.Flag] = MultiBox
                             MultiBox.Items[Value] = false
-                            Item:DeselectItem(Value)
                             Options.Callback(MultiBox.Value)
+                            Item:DeselectItem(Value)
                             --
                             Inactive.Text = Value
                             Library:TweenObject(Inactive, TweenInfo.new(Library.UI.TweenSpeed, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {TextColor3 = Color3.fromRGB(205, 205, 205)})
@@ -3177,13 +3137,11 @@ do -- Library
             Max = 100,
             Default = 1,
             Decimal = 1,
-            UseIcons = true,
             Ending = "",
             Disable = {},
             Hidden = false,
             Risky = false,
             Parent = nil,
-            OverrideLimit = false, -- new parameter to allow values beyond max
             Flag = Library.NewFlag(),
             Callback = function() end
         }, Options or {})
@@ -3336,7 +3294,6 @@ do -- Library
             Size = UDim2.new(0, 3, 0, 1),
             ZIndex = 3,
             BorderSizePixel = 0,
-            Visible = Options.UseIcons,
             BackgroundColor3 = Color3.fromRGB(100, 100, 100),
             Parent = PreviewSlider
         })
@@ -3348,7 +3305,6 @@ do -- Library
             BorderColor3 = Color3.fromRGB(0, 0, 0),
             ZIndex = 3,
             BorderSizePixel = 0,
-            Visible = Options.UseIcons,
             BackgroundColor3 = Color3.fromRGB(100, 100, 100),
             Parent = AddButton
         })
@@ -3361,7 +3317,6 @@ do -- Library
             TextTransparency = 1,
             AnchorPoint = Vector2.new(1, 1),
             Size = UDim2.new(0, 11, 0, 7),
-            Visible = Options.UseIcons,
             BackgroundTransparency = 1,
             Position = UDim2.new(1, -9, 1, 1),
             BorderSizePixel = 0,
@@ -3377,7 +3332,6 @@ do -- Library
             BorderColor3 = Color3.fromRGB(0, 0, 0),
             Name = "MinusActualButton",
             TextTransparency = 1,
-            Visible = Options.UseIcons,
             AnchorPoint = Vector2.new(0, 1),
             Size = UDim2.new(0, 11, 0, 7),
             BackgroundTransparency = 1,
@@ -3393,7 +3347,6 @@ do -- Library
             BorderColor3 = Color3.fromRGB(0, 0, 0),
             AnchorPoint = Vector2.new(0, 1),
             Name = "MinusButton",
-            Visible = Options.UseIcons,
             Position = UDim2.new(0, -8, 1, -3),
             Size = UDim2.new(0, 3, 0, 1),
             ZIndex = 3,
@@ -3406,19 +3359,10 @@ do -- Library
             return typeof(Value) == "string" and Value or ("%.14g"):format(Value)
         end
         --
-        local function SetValue(Value, IgnoreLimit)
+        local function SetValue(Value)
             if (not Value) or Slider.Hiding then return end
             --
-            local OriginalValue = Value
-            -- check if we should allow values beyond the max
-            if Options.OverrideLimit and IgnoreLimit then
-                -- allow any value (still enforce min and decimal rounding)
-                Value = Value and math.max(Options.Decimal * math.round(tonumber(Value) / Options.Decimal), Options.Min) or 0
-            else
-                -- default behavior: clamp between min and max
-                Value = Value and math.clamp(Options.Decimal * math.round(tonumber(Value) / Options.Decimal), Options.Min, Options.Max) or 0
-            end
-            
+            local Value = Value and math.clamp(Options.Decimal * math.round(tonumber(Value) / Options.Decimal), Options.Min, Options.Max) or 0
             local ValueText = Options.Disable[1] and ((Value <= Options.Disable[2] or Value >= Options.Disable[3]) and Options.Disable[1]) or tostring(GetValue(Value)) .. Options.Ending
             --
             SliderValue.Text = "<b>" .. ValueText .. "</b>"
@@ -3426,12 +3370,10 @@ do -- Library
             if Value ~= Slider.CurrentValue then
                 Slider.CurrentValue = Value
                 --
-                -- always display the slider within bounds, even if the value is beyond max
-                local DisplayValue = math.min(Value, Options.Max)
-                Library:TweenObject(SliderDrag, TweenInfo.new(Library.UI.TweenSpeed, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {Size = UDim2.new((DisplayValue - Options.Min) / (Options.Max - Options.Min), 0, 1, 0)})
+                Library:TweenObject(SliderDrag, TweenInfo.new(Library.UI.TweenSpeed, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {Size = UDim2.new((Value - Options.Min) / (Options.Max - Options.Min), 0, 1, 0)})
                 --
                 SliderValue.Size = UDim2.fromOffset(SliderValue.TextBounds.X, SliderValue.TextBounds.Y)
-                SliderValue.Position = UDim2.new(1, SliderValue.TextBounds.X / 2, 0, -4)
+                SliderValue.Position = UDim2.new(1, SliderValue.TextBounds.X / 2, 0, 1)
             end
             --
             Library.Flags[Options.Flag] = Slider
@@ -3455,7 +3397,7 @@ do -- Library
         function Slider:Set(Value)
             if not Value then return end
             --
-            SetValue(Value, Options.OverrideLimit) -- allow overriding limits for api calls too
+            SetValue(Value)
         end
         --
         function Slider:GetName()
@@ -3524,7 +3466,7 @@ do -- Library
                 local NewValue = tonumber(SliderValue.Text)
                 --
                 if NewValue then
-                    SetValue(NewValue, Options.OverrideLimit) -- pass true to allow exceeding max
+                    SetValue(NewValue)
                 else
                     SetValue(Options.Min)
                 end
@@ -3647,8 +3589,6 @@ do -- Library
             Parent = ToggleOutline
         })
         --
-        Library.Objects[ToggleMain] = {ToggleMain, {BackgroundTransparency = ToggleMain.BackgroundTransparency}, false}
-        --
         local UIGradient_32 = Library:CreateObject("UIGradient", {
             Rotation = 90,
             Color = ColorSequence.new{
@@ -3713,13 +3653,6 @@ do -- Library
                 end
                 --
                 Library:TweenObject(ToggleMain, TweenInfo.new(Library.UI.TweenSpeed, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {BackgroundTransparency = Toggle.State and 0 or 1})
-                
-                -- update the stored transparency value in the objects table, this is for the temp fix for the toggle out and toggle in 
-                -- since this uses instant out and instant in instead of the normal fade in and fade out
-                if Library.Objects[ToggleMain] then
-                    Library.Objects[ToggleMain][2].BackgroundTransparency = Toggle.State and 0 or 1
-                end
-                
                 --
                 Library.Flags[Options.Flag] = Toggle
                 Options.Callback(Toggle.State)
@@ -3778,7 +3711,7 @@ do -- Library
             function Toggle:ColorPicker(Options)
                 Options = Library:Validate({
                     Name = "Preview Color Picker",
-                    Default = Library.Theme.Default.Accent,
+                    Default = Color3.fromRGB(255, 0, 0),
                     Flag = Library.NewFlag(),
                     Alpha = 0,
                     AlphaBar = true,
@@ -3814,7 +3747,6 @@ do -- Library
                     HideFromList = false,
                     Blacklisted = {},
                     Hiding = false,
-                    ChangeToggle = false,
                     Flag = Library.NewFlag(),
                     Callback = function() end,
                 }, Options or {})
@@ -3835,7 +3767,6 @@ do -- Library
                     TabUI = Toggle.TabUI,
                     Hiding = Options.Hiding,
                     ToggleState = Toggle.State,
-                    ChangeToggle = Options.ChangeToggle,
                     Flag = Options.Flag,
                     Callback = Options.Callback,
                     Count = #Toggle.ColorPickers + 1,
@@ -3969,7 +3900,7 @@ do -- Library
             function Label:ColorPicker(Options)
                 Options = Library:Validate({
                     Name = "Preview Color Picker",
-                    Default = Library.Theme.Default.Accent,
+                    Default = Color3.fromRGB(255, 0, 0),
                     Flag = Library.NewFlag(),
                     Alpha = 0,
                     AlphaBar = true,
@@ -4842,7 +4773,7 @@ do -- Library
     --
     function Library:Window(Options)
         Options = Library:Validate({
-            Name = "gamesense",
+            Name = "gamesnooze",
             Size = UDim2.new(0, 700, 0, 612),
             MinResize = UDim2.new(0, 500, 0, 400),
             MaxResize = UDim2.new(0, 10000, 0, 10000),
@@ -5348,10 +5279,10 @@ do -- Library
                     if not Tab.Active then
                         SubSectionHolder.Position = UDim2.new(0, 21, 0, SectionsHolder2.AbsoluteSize.Y + SubSectionHolder.AbsoluteSize.Y)
                         Left.Position = UDim2.new(0, 0, 0, Left.AbsoluteSize.Y)
-                        Right.Position = UDim2.new(0.5, 1, 0, Right.AbsoluteSize.Y)
+                        Right.Position = UDim2.new(0.5, 0, 0, Right.AbsoluteSize.Y)
                     else
                         Left.Position = UDim2.new(0, 0, 0, 0)
-                        Right.Position = UDim2.new(0.5, 1, 0, 0)
+                        Right.Position = UDim2.new(0.5, 0, 0, 0)
                     end
                 end)
                 --
@@ -6755,10 +6686,8 @@ do -- Library
                     Decimal = 1,
                     Ending = "",
                     Hidden = false,
-                    UseIcons = true,
                     Disable = {},
                     Risky = false,
-                    OverrideLimit = false, -- new parameter to allow values beyond max
                     Flag = Library.NewFlag(),
                     Callback = function() end
                 }, Options or {})
@@ -6774,9 +6703,7 @@ do -- Library
                     Parent = self.Elements.ContentHolder,
                     Risky = Options.Risky,
                     Disable = Options.Disable,
-                    OverrideLimit = Options.OverrideLimit, -- pass the parameter
                     Flag = Options.Flag,
-                    UseIcons = Options.UseIcons,
                     Callback = Options.Callback
                 })
                 --
@@ -6928,7 +6855,7 @@ do -- Library
                 FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal),
                 TextColor3 = Color3.fromRGB(208, 208, 208),
                 BorderColor3 = Color3.fromRGB(0, 0, 0),
-                Text = "gamesense",
+                Text = "gamesnooze",
                 Name = "Text",
                 Size = UDim2.new(1, 0, 1, 0),
                 BackgroundTransparency = 1,
@@ -6970,13 +6897,7 @@ do -- Library
             --
             local R, G, B = Library.Theme.Default.Accent.R * 255, Library.Theme.Default.Accent.G * 255, Library.Theme.Default.Accent.B * 255
             --
-            Library:UpdateWatermark(("game<font color='rgb(%d, %d, %d)'>sense</font>  <font color='rgb(%d, %d, %d)'>%s</font> <font size='10'>FPS</font>  %s"):format(R, G, B, R, G, B, "60", os.date("%X")))
-            --
-            Library:Notify({
-                Message = ("You are using <font color='rgb(%d, %d, %d)'>gamesense</font>. Join <font color='rgb(%d, %d, %d)'>@</font> discord.gg/3E82u6ecyW"):format(R, G, B, R, G, B),
-                Position = "Top Left",
-                Delay = 15
-            })
+            Library:UpdateWatermark(("game<font color='rgb(%d, %d, %d)'>snooze</font>  <font color='rgb(%d, %d, %d)'>%s</font> <font size='10'>FPS</font>  %s"):format(R, G, B, R, G, B, "60", os.date("%X")))
             --
             do -- Connections
                 Library:Connection(RunService.PostSimulation, function()
@@ -6987,7 +6908,7 @@ do -- Library
                         Watermark.Tick = tick()
                         --
                         if (tick() - Watermark.RefreshTick) > Library.UI.WatermarkRefreshRate then
-                            Library:UpdateWatermark(("game<font color='rgb(%d, %d, %d)'>sense</font>  <font color='rgb(%d, %d, %d)'>%s</font> <font size='10'>FPS</font>  %s"):format(R, G, B, R, G, B, FPS, os.date("%X")))
+                            Library:UpdateWatermark(("game<font color='rgb(%d, %d, %d)'>snooze</font>  <font color='rgb(%d, %d, %d)'>%s</font> <font size='10'>FPS</font>  %s"):format(R, G, B, R, G, B, FPS, os.date("%X")))
                             --
                             Watermark.RefreshTick = tick()
                         end
@@ -7197,3 +7118,217 @@ do -- Library
         --
         return setmetatable(Window, Library)
     end
+end
+--
+local Window = Library:Window({CloseBind = Enum.KeyCode.Insert})
+local Rage = Window:CreateTab({Icon = "rbxassetid://18248771514"})
+local AntiAim = Window:CreateTab({Icon = "rbxassetid://15453313321"})
+local Aimbot = Window:CreateTab({Icon = "rbxassetid://15453335745"})
+local Visuals = Window:CreateTab({Icon = "rbxassetid://15453344494"})
+local Settings = Window:CreateTab({Icon = "rbxassetid://15453349637"})
+local Weapons = Window:CreateTab({Icon = "rbxassetid://15453354931"})
+local PlayerList = Window:CreateTab({Icon = "rbxassetid://15453359751"})
+local Configs = Window:CreateTab({Icon = "rbxassetid://15453364412"})
+local Lua = Window:CreateTab({Icon = "rbxassetid://18240049800"})
+local ActualPlayerList
+--
+Window:SetTab(8)
+AntiAim:Section({Fill = true})
+AntiAim:Section({Fill = true, Side = "Right"})
+--
+do -- Rage
+    Rage:ImageDropdown({Name = "Weapon type", Flag = "RageWeaponType", Options = {["Global"] = {Icon = "rbxassetid://18657040454", Order = 1}, ["Double Barrel SG"] = {Icon = "rbxassetid://18205706952", Order = 2}, ["Revolver"] = {Icon = "rbxassetid://18205704829", Order = 3}, ["LMG"] = {Icon = "rbxassetid://18205822505", Order = 4}}, Default = "Global"})
+    --
+	Rage:Section({Fill = true, Side = "Right"})
+	local RageSection = Rage:Section({Fill = true})
+	local Toggle1, Toggle2, Toggle3 = nil, nil, nil
+	local Test = nil
+	--
+	local g = RageSection:Toggle({Callback = function(State)
+		if not Toggle1 then return end
+		--
+		Toggle1:SetVisible(State)
+		Toggle2:SetVisible(State)
+		Toggle3:SetVisible(State)
+	end})
+	g:ColorPicker()
+	g:ColorPicker()
+	g:Keybind()
+	--
+	Toggle1 = RageSection:Toggle({Hidden = true, Callback = function(State)
+		if not Test then return end
+		--
+		Test:SetVisible(State)
+	end})
+	Toggle1:Keybind({Default = Enum.KeyCode.Q, Mode = "On hotkey"})
+	Test = RageSection:Slider({Name = "", Hidden = true, Default = 50})
+	Toggle2 = RageSection:List({Hidden = true})
+	Toggle3 = RageSection:Button({Confirmation = true, Hidden = true})
+	--
+	RageSection:Dropdown({Content = {"Option 1", "Option 2"}})
+	RageSection:Label()
+	RageSection:MultiBox({Content = {"Option 1", "Option 2"}})
+end
+--
+do -- Visuals
+	local VisualsSubSection, VisualsSubSection2, VisualsSubSection3, VisualsSubSection4 = Visuals:SubSection({Name = "Category", Options = {"rbxassetid://18334627891", "rbxassetid://18334630306", "rbxassetid://18334626899", "rbxassetid://18334625304"}})
+	VisualsSubSection2:Section({Side = "Right", Fill = true})
+	VisualsSubSection2:Section({Fill = true})
+	VisualsSubSection4:Section({Side = "Right", Fill = true})
+	VisualsSubSection4:Section({Fill = true})
+
+
+	local PreviewVisualSection = VisualsSubSection:Section({Side = "Right", Size = 150})
+	local PreviewExtraSection1 = VisualsSubSection:Section({Side = "Right", Fill = true})
+	local PreviewExtraSection2 = VisualsSubSection:Section({Fill = true})
+	local Slider1, Slider2 = nil, nil
+	--
+	PreviewVisualSection:Dropdown({Content = {"test2", "Test3"}})
+	PreviewVisualSection:MultiBox({Content = {"test2", "Test3"}})
+	PreviewVisualSection:Toggle({Risky = true, Callback = function(State)
+		if not (Slider1 and Slider2) then return end
+		--
+		Slider1:SetVisible(State)
+		Slider2:SetVisible(State)
+	end})
+	--
+	Slider1 = PreviewVisualSection:Slider({Hidden = true})
+	Slider2 = PreviewVisualSection:Slider({Name = "FOV", Hidden = true, Min = 0, Max = 11, Default = 5, Decimal = 1, Ending = "°", Disable = {"Disabled", 0, 11}})
+end
+--
+do -- Settings
+	local SettingsSection = Settings:Section({Name = "Settings", Side = "Right", Fill = true})
+	--
+	do -- Settings
+		SettingsSection:Label({Message = "Menu key"}):Keybind({Default = Enum.KeyCode.Insert, UseMode = false, Callback = function(Key) Library.UI.CloseBind = Key end})
+		SettingsSection:Label({Message = "Menu color"}):ColorPicker({Default = Library.Theme.Default.Accent, Callback = function(Color)
+			Library:UpdateColor("Accent", Color)
+			Library:UpdateColor("SecondAccent", Color3.fromRGB(math.max(math.floor(Color.R * 255) - 12, 0), math.max(math.floor(Color.G * 255) - 12, 0), math.max(math.floor(Color.B * 255) - 12, 0)))
+		end})
+		SettingsSection:Slider({Name = "Menu animation speed", Min = 0, Max = 150, Default = 100, Ending = "%", Disable = {"Off", 0, 150}, Callback = function(Value)
+			local MinSource, MaxSource = 1, 150
+			local MinTarget, MaxTarget = 0.8, 0.1
+			local NewValue = MinTarget + ((Value - MinSource) * (MaxTarget - MinTarget)) / (MaxSource - MinSource)
+			--
+			Library.UI.TweenSpeed = Value == (0 or 150) and 0 or NewValue
+		end})
+		SettingsSection:Button({Name = "Unload", Callback = Library.Unload})
+		SettingsSection:Button({Name = "Disable all", Callback = Library.Disable})
+	end
+end
+--
+do -- Weapons
+	local SkinsSection = Weapons:Section({Name = "Skins", Fill = true})
+	local SkinList = SkinsSection:List({Size = 200})
+	--
+	SkinList:AddValue("Test Skin 1", {Image = "http://www.roblox.com/asset/?id=12206409737", Color = Color3.fromRGB(232, 0, 0), Size = UDim2.fromOffset(5, 5), Position = UDim2.new(0, 11, 0.5, 0)})
+	SkinList:AddValue("Test Skin 2", {Image = "http://www.roblox.com/asset/?id=12206409737", Color = Color3.fromRGB(2, 144, 232), Size = UDim2.fromOffset(5, 5), Position = UDim2.new(0, 11, 0.5, 0)})
+	SkinList:AddValue("Test Skin 3", {Image = "http://www.roblox.com/asset/?id=12206409737", Color = Color3.fromRGB(198, 7, 232), Size = UDim2.fromOffset(5, 5), Position = UDim2.new(0, 11, 0.5, 0)})
+	SkinList:AddValue("Test Skin 4", {Image = "http://www.roblox.com/asset/?id=12206409737", Color = Color3.fromRGB(36, 232, 1), Size = UDim2.fromOffset(5, 5), Position = UDim2.new(0, 11, 0.5, 0)})
+end
+--
+do -- Aimbot
+	local AimbotSubSection, AimbotSubSection2 = Aimbot:SubSection({Name = "Category", Options = {"rbxassetid://18686402989", "rbxassetid://18657040454", "rbxassetid://18205704829", "rbxassetid://18205706952", "rbxassetid://18205822505"}})
+end
+--
+do -- PlayerList
+	local PlayerSection = PlayerList:Section({Name = "Players", Fill = true})
+	local PlayerAdjustments = PlayerList:Section({Name = "Adjustments", Fill = true, Side = "Right"})
+	--
+	do -- Player Section
+		ActualPlayerList = PlayerSection:List({Flag = "PlayerListCurrentPlayer", Size = 300})
+		--
+		PlayerSection:Button({Name = "View player", Callback = function()
+			local Player = Players:FindFirstChild(Library.Flags["PlayerListCurrentPlayer"]:Get())
+			--
+			if Player then
+				Library:ViewPlayer(Player)
+			end
+		end})
+		--
+		for _, Player in Players:GetPlayers() do
+			ActualPlayerList:AddValue(Player.Name, {Image = Players:GetUserThumbnailAsync(Player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size420x420)})
+		end
+	end
+	--
+	do -- Adjustments
+		PlayerAdjustments:Toggle({Name = "Whitelisted"})
+	end
+end
+--
+do -- Configs
+	local ConfigSection = Configs:Section({Name = "Configs", Fill = true})
+	local LuaSection = Configs:Section({Name = "LUA", Side = "Right", Fill = true})
+	--
+	do -- Configs
+		local ConfigList = ConfigSection:List({Size = 200, Flag = "CurrentConfig"})
+		--
+		Library:UpdateConfigList(ConfigList, "Add")
+		--
+		ConfigSection:Button({Name = "Update config", Callback = function()
+			if Library.Flags["CurrentConfig"]:Get() then
+				writefile("LuckyHub/Configs/" .. Library.Flags["CurrentConfig"]:Get() .. ".cfg", Library:GetConfig())
+			end
+		end})
+		ConfigSection:Button({Name = "Load config", Callback = function()
+			if Library.Flags["CurrentConfig"]:Get() then
+				Library:LoadConfig(readfile("LuckyHub/Configs/" .. Library.Flags["CurrentConfig"]:Get() .. ".cfg"))
+			end
+		end})
+		ConfigSection:TextBox({Flag = "ConfigName"})
+		ConfigSection:Button({Name = "Create config", Callback = function()
+			local ConfigName = Library.Flags["ConfigName"]:Get()
+			--
+			if Library.Flags["ConfigName"]:Get() ~= "" and not isfile("LuckyHub/Configs/" .. ConfigName .. ".cfg") then
+			    writefile("LuckyHub/Configs/" .. ConfigName .. ".cfg", Library:GetConfig())
+			    --
+			    ConfigList:AddValue(ConfigName)
+			end
+		end})
+		ConfigSection:Button({Name = "Refresh list", Callback = function()
+			Library:UpdateConfigList(ConfigList, "Remove")
+			Library:UpdateConfigList(ConfigList, "Add")
+		end})
+	end
+	--
+	do -- LUA
+		local LuaList = LuaSection:List({Size = 75})
+		--
+		LuaSection:Button({Name = "Load script"})
+		LuaSection:Button({Name = "Unload script"})
+		LuaSection:Button({Name = "Refresh list"})
+	end
+end
+--
+do -- Lua
+	local TabA = Lua:Section({Name = "Tab A", Fill = true})
+	local TabB = Lua:Section({Name = "Tab B", Side = "Right", Fill = true})
+end
+--
+do -- Connections
+	Library:Connection(Players.PlayerAdded, function(Player)
+		if not ActualPlayerList then return end
+		--
+		ActualPlayerList:AddValue(Player.Name, {Image = Players:GetUserThumbnailAsync(Player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size420x420)})
+	end)
+	--
+	Library:Connection(Players.PlayerRemoving, function(Player)
+		if not ActualPlayerList then return end
+		--
+		ActualPlayerList:AddValue(Player.Name, {Image = Players:GetUserThumbnailAsync(Player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size420x420)})
+	end)
+end
+--
+Library:Init()
+--
+local Position = "Top Left"
+--
+for i = 1, 10 do
+	local R, G, B = Library.Theme.Default.Accent.R * 255, Library.Theme.Default.Accent.G * 255, Library.Theme.Default.Accent.B * 255
+	--
+	Library:Notify({Message = ("hit <font color='rgb(%d, %d, %d)'>awesomegamer5</font> in the <font color='rgb(%d, %d, %d)'>head</font> for <font color='rgb(%d, %d, %d)'>100</font> damage (0 health remaining)"):format(R, G, B, R, G, B, R, G, B), Position = Position, Delay = 3})
+	--
+	Position = Position == "Top Left" and "Middle" or "Top Left"
+	--
+	task.wait(0.5)
+end
